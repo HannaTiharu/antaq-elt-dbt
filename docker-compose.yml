@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  postgres_antaq:
+    image: postgres:15
+    container_name: postgres_antaq
+    environment:
+      POSTGRES_USER: hanna
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: antaq_dw
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
