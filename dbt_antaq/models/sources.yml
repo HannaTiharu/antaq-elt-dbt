@@ -1,0 +1,10 @@
+version: 2
+
+sources:
+  - name: antaq_raw
+    description: "Dados brutos da ANTAQ carregados via Python"
+    database: antaq_dw
+    schema: public
+    tables:
+      - name: raw_atracacao
+      - name: raw_carga
