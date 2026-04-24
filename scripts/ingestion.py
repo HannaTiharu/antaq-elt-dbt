@@ -14,13 +14,15 @@ def ingest_csv(file_path, table_name):
         df = pd.read_csv(file_path, sep=';', encoding='utf-8', dtype=str) # Lê tudo como string para evitar problemas de tipo
         
         # O 'if_exists=replace' garante que ele crie a tabela na primeira vez
-        df.to_sql(table_name, engine, if_exists='replace', index=False)
+        df.to_sql(table_name, engine, if_exists='append', index=False)
         print(f"✅ Tabela '{table_name}' criada com sucesso!")
     except Exception as e:
         print(f"❌ Erro ao processar {file_path}: {e}")
 
 if __name__ == "__main__":
-    # Ajuste o caminho para onde você baixou os arquivos da ANTAQ
-    # Exemplo:
-    ingest_csv('data/2025Atracacao.txt', 'raw_atracacao')
-    ingest_csv('data/2025Carga.txt', 'raw_carga')
+    folder_path = 'data'
+    for filename in os.listdir(folder_path):
+        if filename.endswith('.txt'):
+            file_path = os.path.join(folder_path, filename)
+            table_name = 'raw_' + filename.split('.')[0][4:].lower()  # Ex: '2025Atracacao.txt' -> 'raw_atracacao'
+            ingest_csv(file_path, table_name)
