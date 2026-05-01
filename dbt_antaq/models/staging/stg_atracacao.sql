@@ -13,8 +13,21 @@ renamed as (
         to_timestamp("Data Início Operação", 'DD/MM/YYYY HH24:MI:SS') as dh_inicio_operacao,
         to_timestamp("Data Término Operação", 'DD/MM/YYYY HH24:MI:SS') as dh_termino_operacao,
         to_timestamp("Data Desatracação", 'DD/MM/YYYY HH24:MI:SS') as dh_desatracacao, 
-        "FlagMCOperacaoAtracacao" as ds_motivo_atracacao
+        "FlagMCOperacaoAtracacao" as ds_motivo_atracacao,
+        "Tipo de Operação" as ds_tipo_operacao
     from source
+),
+
+not_null as (
+    select *
+    from renamed
+    where nm_porto is not null
+),
+
+final as (
+    select *
+    from not_null
+    where extract(epoch from (dh_atracacao - dh_chegada)) / 3600 < 2160 -- Limite de 90 dias para evitar outliers extremos
 )
 
-select * from renamed
+select * from final
