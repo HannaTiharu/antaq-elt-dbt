@@ -27,5 +27,20 @@ with atracacao as (
         select *
         from horas_espera
         where categoria_operacao = 'Comercial'
+    ),
+    contagem_anos as (
+        select 
+            nm_porto,
+            count(distinct extract(year from dh_chegada)) as total_anos_porto
+        from comercial
+        group by 1
+    ),
+    significancia as (
+        select 
+            c.*,
+            a.total_anos_porto
+        from comercial c
+        inner join contagem_anos a on c.nm_porto = a.nm_porto
+        where a.total_anos_porto >= 10
     )
-select * from comercial 
+    select * from significancia

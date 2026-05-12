@@ -30,5 +30,20 @@ with atracacao as (
             end as categoria_operacao
         from atracacao a
         left join carga c on a.id_atracacao = c.id_atracacao
+    ),
+    contagem_anos as (
+        select 
+            nm_porto,
+            count(distinct extract(year from dh_chegada)) as total_anos_porto
+        from joined
+        group by 1
+    ),
+    significancia as (
+        select 
+            j.*,
+            a.total_anos_porto
+        from joined j
+        inner join contagem_anos a on j.nm_porto = a.nm_porto
+        where a.total_anos_porto >= 10
     )
-select * from joined 
+    select * from significancia

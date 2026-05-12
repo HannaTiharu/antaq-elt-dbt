@@ -35,4 +35,5 @@ with base as (
         from media_mensal m
         left join media_global g on m.nm_porto = g.nm_porto
     )
+    
 select * from sazonalidade

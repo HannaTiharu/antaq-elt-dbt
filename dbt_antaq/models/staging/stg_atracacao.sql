@@ -24,10 +24,27 @@ not_null as (
     where nm_porto is not null
 ),
 
-final as (
+not_outliers as (
     select *
     from not_null
     where extract(epoch from (dh_atracacao - dh_chegada)) / 3600 < 2160 -- Limite de 90 dias para evitar outliers extremos
+),
+
+deduplicated as (
+    select
+        *,
+        -- Cria um ranking para cada ID. Se houver duplicatas, o primeiro será 1, o segundo 2, etc.
+        row_number() over (
+            partition by id_atracacao 
+            order by dh_chegada desc -- Em caso de conflito, prioriza o registro mais recente
+        ) as row_num
+    from not_outliers
+),
+
+final as (
+    select *
+    from deduplicated
+    where row_num = 1 
 )
 
 select * from final
