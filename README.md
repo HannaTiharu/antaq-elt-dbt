@@ -76,6 +76,13 @@ Para garantir a integridade da **Climatologia de Dados**, foram aplicadas camada
     ```
 3.  **Dashboard Interativo:** [https://datastudio.google.com/reporting/e2516eb3-c47a-44ee-af2c-5e86b595e320]
 
+### 🎥 Demonstração do Dashboard
+[Demonstração do Dashboard Portuário - ANTAQ](
+
+https://github.com/user-attachments/assets/48d90ca3-ec23-4cdb-af62-010395b6ca9d
+
+)
+
 ---
 **Desenvolvido por Hanna Tiharu Kodama**
 
